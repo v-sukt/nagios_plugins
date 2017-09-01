@@ -1,7 +1,7 @@
 # nagios_plugins
 customized nagios plugins/codes snippets
 ## chk_redshift_diskspace :
-provides teh details of diskspace for various thresholds, a summary table
+provides the details of diskspace for various thresholds, a summary table
 
 range | state
 ------|------
