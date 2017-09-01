@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Check the Disk Space utilization of redshift cluster - 
+# Replace the values as appicable replacing <> sections
+# Get teh disk cosumption : 
+
+used_space=`/usr/bin/psql "<redshift_end_point> port=5439 dbname=<master_db_name> user=<username> password="'<password_value>'"" -F , --no-align -t  -c "select sum(used)::float / sum(capacity) * 100 as pct_full from stv_partitions "`
+
+case $used_space in
+    [1-79]*)
+        printf "OK - %.2f%% of disk space used.\n" $used_space
+        exit 0
+        ;;
+    [80-89]*)
+        printf "WARNING - %.2f%% of diska space used.\n" $used_space
+        exit 1
+        ;;
+    [90-100]*)
+        printf "CRITICAL - %.2f%% of disk space used.\n" $used_space
+        exit 2
+        ;;
+    *)
+        printf "UNKNOWN - %.2f%% of disk space used.\n" $used_space
+        exit 3
+        ;;
+esac
